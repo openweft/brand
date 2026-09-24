@@ -23,20 +23,14 @@ wordmark, and simply had an empty space where the mark belongs, so it was
 never published. Fixed in [go-gfx/gfx#47](https://github.com/go-gfx/gfx/pull/47),
 which is also where the pixel test guarding it lives.
 
-## ⚠ Still missing
+## What is here
 
-Nineteen `openweft/*` repositories reference a per-repo declension that does
-not exist yet:
+The org mark, and a per-repo **declension** for each `weft-loom` repository:
+the same weave shrunk into the top region plus a white name plate. Not a new
+glyph per repository — that convention was got wrong once before, on
+`go-fsctl`.
 
-```
-weft-loom-{server,workspace,markdown,themes,texlive,cpp,golang,node,python,rust}
-weft-loom-app-{linux,osx,windows}
-weft-loom-theme-{cnrs,dinum,ihes,ip-paris,paris-saclay,polytechnique}
-```
-
-Those READMEs still show a broken image. The declension convention is the org
-glyph shrunk into the top region plus a white name plate — **not** a new glyph
-per repository — and the marks have to be drawn before they can be generated.
+All fifty-six `openweft/*` READMEs resolve their banner from here.
 
 ## Layout
 
