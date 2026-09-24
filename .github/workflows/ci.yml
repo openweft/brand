@@ -1,0 +1,64 @@
+# This repository holds images, and the failure that kept it unpublished for
+# three months was an image that rendered BLANK where its mark belongs. A lane
+# that counts files or checks sizes would have passed the whole time.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  assets:
+    name: every banner carries its mark
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+
+      # PROVES: every social banner decodes, is 1280x640, and has ink in its
+      #    LEFT THIRD -- where the mark sits. openweft's glyph is four <line>
+      #    elements and gfx/svg did not implement <line>; a shape absent from
+      #    its switch is silently not painted, so the banner generated with its
+      #    wordmark and an empty space, and nobody noticed for three months.
+      #    DOES NOT PROVE: that the mark drawn is the RIGHT one. Only a person
+      #    looking at it can say that.
+      - name: Banners carry their mark
+        run: go run ./tools
+
+      # PROVES: the check above can still fail. A blank left third is planted
+      #    and must be caught. A check whose subject quietly stops being
+      #    checked is worse than no check, because it turns an absence into
+      #    assurance.
+      - name: The check still catches a mark-less banner
+        run: |
+          set -euo pipefail
+          tmp=$(mktemp -d); cp -R social tools go.mod "$tmp/"
+          python3 - "$tmp" <<'PY'
+          import sys, pathlib, struct, zlib
+          w, h = 1280, 640
+          rows = b''.join(b'\x00' + bytes([0x1c, 0x3a, 0x6b] * w) for _ in range(h))
+          def chunk(t, d):
+              return struct.pack('>I', len(d)) + t + d + struct.pack('>I', zlib.crc32(t + d) & 0xffffffff)
+          png = (b'\x89PNG\r\n\x1a\n'
+                 + chunk(b'IHDR', struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0))
+                 + chunk(b'IDAT', zlib.compress(rows)) + chunk(b'IEND', b''))
+          pathlib.Path(sys.argv[1], 'social', 'blank.png').write_bytes(png)
+          PY
+          cd "$tmp"
+          if go run ./tools; then
+            echo "::error::SELF-TEST FAILED: a banner with no mark was accepted."
+            echo "The step above therefore proves nothing."
+            exit 1
+          fi
+          echo "self-test ok: a mark-less banner is refused"
