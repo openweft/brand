@@ -1,0 +1,22 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="weft-loom-app-linux">
+  <defs>
+    <linearGradient id="weftgrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#172445"/>
+    </linearGradient>
+  </defs>
+  <!-- The ORG glyph, declined: the same weave shrunk into the top region and a
+       name plate underneath. Not a new glyph: that convention was got wrong
+       once before, on go-fsctl. Draw order warp[1,3] -> weft -> warp[2] keeps
+       the over/under. -->
+  <g transform="translate(128 82) scale(0.56) translate(-128 -128)">
+    <g fill="none" stroke-linecap="round" stroke-width="22">
+      <line x1="68"  y1="40" x2="68"  y2="216" stroke="#000000"/>
+      <line x1="188" y1="40" x2="188" y2="216" stroke="#000000"/>
+      <line x1="36"  y1="128" x2="220" y2="128" stroke="#CCD6EC"/>
+      <line x1="128" y1="40" x2="128" y2="216" stroke="#000000"/>
+    </g>
+  </g>
+  <rect x="52" y="146" width="152" height="48" rx="14" fill="none" stroke="#000000" stroke-width="6"/>
+  <text x="128" y="179" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-weight="700" font-size="26" fill="#000000">linux</text>
+</svg>
